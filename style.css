@@ -1,0 +1,579 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  min-height: 100vh;
+  height: auto;
+  padding: 20px 0;
+  font-family: "Press Start 2P", cursive;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 45%, #0f172a 100%);
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+
+  background-size: 40px 40px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.container {
+  width: min(1400px, 95vw);
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  gap: 20px;
+
+  background: rgba(0, 0, 0, 0.25);
+  border: 6px solid #3e2723;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  box-shadow:
+    0 0 0 6px #5d4037,
+    0 0 40px rgba(0, 0, 0, 0.6);
+
+  backdrop-filter: blur(3px);
+  border-radius: 10px;
+}
+
+h1 {
+  font-size: 22px;
+  text-align: center;
+  margin-bottom: 25px;
+  letter-spacing: 2px;
+  color: #facc15;
+}
+
+.camera-box {
+  position: relative;
+  width: min(90vw, 900px);
+  aspect-ratio: 6 / 3;
+  height: auto;
+  margin: 0 auto;
+  border: 6px solid #4e342e;
+  border-radius: 18px;
+  overflow: hidden;
+  background: black;
+  border-radius: 18px;
+  box-shadow:
+    0 0 0 6px #6d4c41,
+    0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.camera-box::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -100%;
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    transparent,
+    rgba(255, 255, 255, 0.12),
+    transparent
+  );
+
+  animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+  to {
+    top: 100%;
+  }
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.info {
+  background: rgba(15, 23, 42, 0.9);
+  width: min(90vw, 900px);
+  margin: 0 auto;
+  border: 2px solid #334155;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 18px;
+}
+
+#gesture {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #a5d6a7;
+  text-shadow: 2px 2px 0 #000;
+}
+button {
+  margin: 12px;
+
+  padding: 16px 24px;
+
+  font-family: "Press Start 2P", cursive;
+  font-size: 11px;
+
+  color: white;
+
+  background: linear-gradient(to bottom, #66bb6a, #388e3c);
+
+  border: 4px solid #1b5e20;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 0 #1b5e20,
+    0 10px 20px rgba(0, 0, 0, 0.4);
+
+  transition: 0.15s;
+}
+
+button:hover {
+  transform: translateY(-3px);
+}
+
+button:active {
+  transform: translateY(4px);
+
+  box-shadow:
+    0 2px 0 #1b5e20,
+    0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+#result {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #ffeb3b;
+
+  text-shadow: 2px 2px 0 #000;
+}
+
+#aiChoice {
+  margin-top: 10px;
+  font-size: 10px;
+  color: #90caf9;
+
+  text-shadow: 2px 2px 0 #000;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#playerHandImg,
+#aiHandImg {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+#playerHandImg {
+  left: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#aiHandImg {
+  margin-top: 10px;
+  right: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#gameMessage {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 90%;
+
+  text-align: center;
+
+  font-size: 34px;
+
+  color: #ffeb3b;
+  font-size: clamp(24px, 3vw, 42px);
+  text-shadow:
+    4px 4px 0 #000,
+    0 0 15px #ffeb3b,
+    0 0 30px #ffeb3b;
+
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.winner {
+  font-size: 34px;
+  margin-bottom: 15px;
+}
+
+.score-final {
+  display: inline-block;
+  padding: 8px 15px;
+  margin-top: 10px;
+
+  background: rgba(0, 0, 0, 0.6);
+
+  font-size: 18px;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  #result {
+    font-size: 10px;
+  }
+
+  button {
+    font-size: 8px;
+    padding: 10px;
+  }
+
+  #gesture,
+  #aiChoice {
+    font-size: 9px;
+  }
+}
+
+#aiHandImg {
+  position: absolute;
+
+  width: 260px;
+  height: 260px;
+
+  top: 50%;
+  left: 50%;
+
+  opacity: 0;
+
+  transform: translate(-50%, -50%) scale(0.2) rotate(-25deg);
+
+  image-rendering: pixelated;
+
+  filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 30px #fff);
+
+  transition: 0.45s cubic-bezier(0.17, 0.84, 0.44, 1);
+}
+
+#aiHandImg.show {
+  opacity: 1;
+
+  transform: translate(-50%, -50%) scale(1) rotate(0deg);
+}
+.scoreboard {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 25px;
+}
+
+#gesture,
+#roundText,
+#aiChoice,
+#result {
+  text-align: center;
+  width: auto;
+  display: block;
+  line-height: 1;
+  margin-top: 10px;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  min-width: 120px;
+  width: fit-content;
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 2px solid #475569;
+  border-radius: 14px;
+  padding: 10px 16px;
+}
+
+.stat-box:first-child {
+  width: 140px;
+}
+
+.stat-box:nth-child(2) {
+  width: 140px;
+}
+
+.stat-box:last-child {
+  width: 110px;
+}
+
+.stat-box:hover {
+  transform: translateY(-3px);
+}
+
+.stat-box span {
+  font-size: 7px;
+  color: #94a3b8;
+  line-height: 1;
+  margin: 0;
+}
+
+.stat-box h3 {
+  font-size: 11px;
+  line-height: 1;
+  min-height: 14px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-box span,
+.stat-box h3 {
+  margin: 0;
+}
+
+#playBtn {
+  background: linear-gradient(to bottom, #ffeb3b, #f57f17);
+  display: block;
+
+  margin: 0 auto;
+
+  padding: 16px 32px;
+
+  border: 5px solid #000;
+
+  color: #000;
+
+  font-size: 18px;
+
+  animation: pulseBtn 1s infinite;
+}
+
+@keyframes pulseBtn {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.score-card span {
+  font-size: 8px;
+  color: #94a3b8;
+}
+
+.score-card h2 {
+  font-size: 32px;
+
+  margin-top: 8px;
+
+  color: #facc15;
+}
+
+.vs {
+  font-size: 28px;
+  color: #ef4444;
+}
+
+video,
+canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 12px;
+    min-height: auto;
+  }
+
+  h1 {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .camera-box {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .info {
+    width: 100%;
+    padding: 15px;
+  }
+
+  #playBtn {
+    width: 100%;
+    max-width: 260px;
+    font-size: 12px;
+    padding: 14px;
+  }
+
+  .scoreboard {
+    gap: 15px;
+  }
+
+  .score-card h2 {
+    font-size: 22px;
+  }
+
+  .vs {
+    font-size: 18px;
+  }
+
+  .game-stats {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .stat-box {
+    flex: 1;
+    min-width: 90px;
+    width: auto !important;
+    height: 75px;
+    padding: 8px;
+  }
+
+  .stat-box span {
+    font-size: 6px;
+  }
+
+  .stat-box h3 {
+    font-size: 9px;
+  }
+
+  #result {
+    font-size: 11px;
+  }
+
+  #gameMessage {
+    font-size: 20px;
+  }
+
+  #aiHandImg {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* HP KECIL */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .camera-box {
+    aspect-ratio: 1 / 1;
+  }
+
+  .scoreboard {
+    gap: 10px;
+  }
+
+  .score-card span {
+    font-size: 6px;
+  }
+
+  .score-card h2 {
+    font-size: 18px;
+  }
+
+  .vs {
+    font-size: 14px;
+  }
+
+  .game-stats {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-box {
+    width: 100% !important;
+    max-width: 250px;
+  }
+
+  #playBtn {
+    font-size: 10px;
+  }
+
+  #gameMessage {
+    font-size: 16px;
+    width: 95%;
+  }
+
+  #aiHandImg {
+    width: 120px;
+    height: 120px;
+  }
+}
